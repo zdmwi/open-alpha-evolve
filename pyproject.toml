@@ -18,5 +18,9 @@ packages = ["src/open_alpha_evolve"]
 
 [dependency-groups]
 dev = [
+    "pytest-cov>=6.2.1",
     "pytest>=8.4.1",
 ]
+
+[tool.pytest.ini_options]
+addopts = "--cov=open_alpha_evolve"

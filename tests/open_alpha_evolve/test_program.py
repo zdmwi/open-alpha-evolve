@@ -18,15 +18,19 @@ class TestProgram:
         assert Program(test_file.name) is not None
         assert Program(Path(test_file.name)) is not None
 
-
     def test_program_str(self, test_file: tempfile.NamedTemporaryFile):
         program = Program(test_file.name)
-        assert str(program) == program._to_markdown()
+        assert str(program) == program.to_markdown()
         
     def test_program_to_markdown(self, test_file: tempfile.NamedTemporaryFile):
         program = Program(test_file.name)
-        assert program._to_markdown() == """
+        assert program.to_markdown() == """
         ```python
         print('Hello World')
         ```
         """.strip()
+
+    def test_program_id_is_unique(self, test_file: tempfile.NamedTemporaryFile):
+        program1 = Program(test_file.name)
+        program2 = Program(test_file.name)
+        assert program1.id != program2.id
