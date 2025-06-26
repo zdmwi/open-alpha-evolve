@@ -11,3 +11,7 @@ wheels/
 
 # Coverage
 .coverage
+
+# VSCode
+.vscode
+
