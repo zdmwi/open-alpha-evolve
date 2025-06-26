@@ -29,14 +29,27 @@ class TestProgram:
 
         assert program.to_markdown() == result
        
-
     def test_program_id_is_unique(self, test_file: tempfile.NamedTemporaryFile):
         program1 = Program(test_file.name)
         program2 = Program(test_file.name)
         assert program1.id != program2.id
 
-
-    def test_program_get_evolve_blocks(self, test_file: tempfile.NamedTemporaryFile):
+    def test_program_get_evolve_blocks_returns_evolve_blocks(self, test_file: tempfile.NamedTemporaryFile):
         program = Program(test_file.name)
         assert program.get_evolve_blocks() == ["print('Evolve Code Block')"]
         
+    def test_program_get_evolve_blocks_returns_empty_list_if_no_evolve_blocks(self):
+        test_file = tempfile.NamedTemporaryFile(suffix=".py")
+        test_file.write(b"print('Hello World')")
+        test_file.flush()
+
+        program = Program(test_file.name)
+        assert program.get_evolve_blocks() == []
+
+    def test_program_get_markdown_syntax_returns_empty_string_if_language_not_supported(self):
+        test_file = tempfile.NamedTemporaryFile(suffix=".unsupported_file_suffix")
+        test_file.write(b"Hello World")
+        test_file.flush()
+
+        program = Program(test_file.name)
+        assert program._get_markdown_syntax() == ""

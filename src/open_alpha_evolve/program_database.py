@@ -28,11 +28,11 @@ class ProgramDatabase:
                 return random.choice(list(self._programs.values()))
 
     def _sample_random_inspirations(self, parent, n: int) -> list[Program]:
-        unique_programs = set(self._programs.values())
-        unique_programs.discard(parent)
+        unique_programs = list(self._programs.values())
+        unique_programs.remove(parent)
 
         if n > len(unique_programs):
-            return list(unique_programs)
+            return unique_programs
 
         return random.sample(unique_programs, n)
 

@@ -118,3 +118,13 @@ class TestProgramDatabase:
         parent_program = database._sample_parent(sampling_strategy=SamplingStrategy.RANDOM)
         inspirations = database._sample_inspirations(parent_program, n=3, sampling_strategy=SamplingStrategy.RANDOM)
         assert len(inspirations) == len(set(inspirations))
+
+    def test_sample_random_inspirations_raises_value_error_if_no_programs_in_database(self, test_file: tempfile.NamedTemporaryFile):
+        database = ProgramDatabase()
+        with pytest.raises(ValueError):
+            database._sample_inspirations(None, n=1)
+
+    def test_sample_parent_raises_value_error_if_no_programs_in_database(self, test_file: tempfile.NamedTemporaryFile):
+        database = ProgramDatabase()
+        with pytest.raises(ValueError):
+            database._sample_parent()
