@@ -86,7 +86,7 @@ class TestProgramDatabase:
 
         n = 4
         inspirations = database._sample_inspirations(program1, n=n, sampling_strategy=SamplingStrategy.RANDOM)
-        assert len(inspirations) == len(database._programs)
+        assert len(inspirations) == len(database._programs) - 1 # parent program should not be included
         assert all(isinstance(program, Program) for program in inspirations)    
 
     def test_sample_inspirations_randomly_does_not_include_parent_program(self, test_file: tempfile.NamedTemporaryFile):

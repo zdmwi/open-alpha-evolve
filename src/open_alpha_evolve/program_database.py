@@ -27,25 +27,23 @@ class ProgramDatabase:
             case SamplingStrategy.RANDOM:
                 return random.choice(list(self._programs.values()))
 
+    def _sample_random_inspirations(self, parent, n: int) -> list[Program]:
+        unique_programs = set(self._programs.values())
+        unique_programs.discard(parent)
+
+        if n > len(unique_programs):
+            return list(unique_programs)
+
+        return random.sample(unique_programs, n)
+
     def _sample_inspirations(self, parent: Program, n: int = 3, *, sampling_strategy: SamplingStrategy = SamplingStrategy.RANDOM) -> list[Program]:
         if not self._programs:
             raise ValueError("No programs in database")
 
         match sampling_strategy:
             case SamplingStrategy.RANDOM:
-                programs = list(self._programs.values())
-                programs.remove(parent)
+                return self._sample_random_inspirations(parent, n)
 
-                if n > len(programs):
-                    return programs
-
-                inspirations = []
-                while len(inspirations) < n:
-                    inspiration = random.choice(programs)
-                    if inspiration not in inspirations:
-                        inspirations.append(inspiration)
-
-                return inspirations
 
     def add(self, program: Program) -> str:
         self._programs[program.id] = program
